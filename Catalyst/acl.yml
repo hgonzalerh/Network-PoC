@@ -1,0 +1,119 @@
+- hosts: catalysts
+  vars:
+    authorized_management_ips:
+      - 10.10.10.10
+      - 10.10.10.12
+      - 10.10.10.13
+  tasks:
+    - name: Parse source of truth for rules
+    - name: Replace one standard ACL from the truth source 
+      cisco.ios.ios_acls:
+        config:
+          - afi: ipv4
+            acls:
+              - name: Mgmt-LANMAN
+                acl_type: extended
+                aces:
+                  # ip access-list extended Mgmt-LANMAN
+                  # permit tcp host 10.20.5.33 any eq 22
+                  # deny   tcp any any eq 22
+                  # permit tcp host 10.50.21.5 any eq 2444
+                  - grant: permit
+                    protocol_options:
+                      tcp:
+                        syn: true
+                    source:
+                      address: {{ item.source_ip }}
+                    destination:
+                      address: any
+                      port_protocol:
+                        eq: 22
+                  - grant: deny
+                    protocol_options:
+                      tcp:
+                        syn: true
+                    source:
+                      address: any
+                    destination:
+                      address: any
+                      port_protocol:
+                        eq: 22
+              
+              - name: CMAS_ADMIN
+                acl_type: standard
+                aces:
+                  - grant: deny
+                    sequence: 20
+                    protocol_options:
+                      tcp:
+                        syn: true
+                    source:
+                      address: 198.51.100.0
+                      wildcard_bits: 0.0.0.255
+                      port_protocol:
+                        eq: telnet
+                    destination:
+                      address: 198.51.110.0
+                      wildcard_bits: 0.0.0.255
+                      port_protocol:
+                        eq: telnet
+                    dscp: ef
+                    ttl:
+                      eq: 10
+        state: replaced
+        loop: {{ authorized_management_ips }}
+    - name: Replace ACL for access 
+      cisco.ios.ios_acls:
+        config:
+          - afi: ipv4
+            acls:
+              - name: Mgmt-LANMAN
+                acl_type: extended
+                aces:
+                  # ip access-list extended Mgmt-LANMAN
+                  # permit tcp host 10.20.5.33 any eq 22
+                  # deny   tcp any any eq 22
+                  # permit tcp host 10.50.21.5 any eq 2444
+                  - grant: permit
+                    protocol_options:
+                      tcp:
+                        syn: true
+                    source:
+                      address: {{ item.source_ip }}
+                    destination:
+                      address: any
+                      port_protocol:
+                        eq: 22
+                  - grant: deny
+                    protocol_options:
+                      tcp:
+                        syn: true
+                    source:
+                      address: any
+                    destination:
+                      address: any
+                      port_protocol:
+                        eq: 22
+              
+              - name: CMAS_ADMIN
+                acl_type: standard
+                aces:
+                  - grant: deny
+                    sequence: 20
+                    protocol_options:
+                      tcp:
+                        syn: true
+                    source:
+                      address: 198.51.100.0
+                      wildcard_bits: 0.0.0.255
+                      port_protocol:
+                        eq: telnet
+                    destination:
+                      address: 198.51.110.0
+                      wildcard_bits: 0.0.0.255
+                      port_protocol:
+                        eq: telnet
+                    dscp: ef
+                    ttl:
+                      eq: 10
+        state: replaced

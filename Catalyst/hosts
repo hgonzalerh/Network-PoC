@@ -1,0 +1,6 @@
+[switches]
+# Lab Catalyst 3750
+catalyst-lab ansible_host=10.50.21.113
+
+[switches:vars]
+ansible_network_os=ios

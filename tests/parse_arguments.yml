@@ -1,0 +1,9 @@
+- hosts: localhost
+  vars:
+    sot_packages:
+      - one
+      - two
+      - three
+  tasks:
+    - name: Parse a list of packages
+      
