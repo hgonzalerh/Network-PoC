@@ -1,7 +1,9 @@
-- hosts: localhost
+- hosts: lala
   gather_facts: false
+  connection: ansible.netcommon.network_cli
 
   vars:
+    ansible_network_os: cisco.ios.ios
     CMAS_ADMIN_ADDRESSES:
       - 10.10.10.10
       - 10.10.10.12
@@ -18,4 +20,4 @@
                 aces: >-
                   {{ lookup('template', 'templates/CMAS_ADMIN.yml')
                   | ansible.builtin.from_yaml }}
-        state: replaced
+        state: rendered

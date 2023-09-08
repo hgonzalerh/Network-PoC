@@ -1,10 +1,5 @@
 {% for source_address in CMAS_ADMIN_ADDRESSES %}
 - grant: permit
-  protocol_options:
-    tcp:
-      syn: true
   source:
     address: {{ source_address }}
-  destination:
-    address: any
 {% endfor %}
