@@ -1,9 +1,11 @@
 - hosts: localhost
   vars:
-    sot_packages:
+    sot_addresses:
       - one
       - two
       - three
   tasks:
-    - name: Parse a list of packages
-      
+    - name: Template a list of packages and parse from yaml
+      ansible.builtin.debug:
+        msg: "{{ lookup('template', 'templates/rules.yml')  
+                | ansible.builtin.from_yaml | ansible.builtin.to_nice_yaml }}"
