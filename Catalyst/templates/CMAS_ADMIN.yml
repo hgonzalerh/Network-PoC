@@ -1,4 +1,4 @@
-{% for source_address in CMAS_ADMIN_ADDRESES %}
+{% for source_address in CMAS_ADMIN_ADDRESSES %}
 - grant: permit
   protocol_options:
     tcp:
