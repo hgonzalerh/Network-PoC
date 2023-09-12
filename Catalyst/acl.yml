@@ -4,10 +4,15 @@
 
   vars:
     ansible_network_os: cisco.ios.ios
+    # Aquí se configuran las IPs de cada lista
     CMAS_ADMIN_ADDRESSES:
       - 10.10.10.10
       - 10.10.10.12
       - 10.10.10.13
+
+    Mgmt_LANMAN_ADDRESSES:
+      - 10.20.5.33
+      - 10.50.21.5
 
   tasks:
     - name: Replace ACL for access
@@ -18,6 +23,11 @@
               - name: CMAS_ADMIN
                 acl_type: standard
                 aces: >-
-                  {{ lookup('template', 'templates/CMAS_ADMIN.yml')
+                  {{ lookup('template', 'templates/CMAS_ADMIN.yml.j2')
+                  | ansible.builtin.from_yaml }}
+              - name: Mgmt-LANMAN
+                acl_type: extended
+                aces: >-
+                  {{ lookup('template', 'templates/Mgmt_LANMAN.yml.j2')
                   | ansible.builtin.from_yaml }}
         state: rendered

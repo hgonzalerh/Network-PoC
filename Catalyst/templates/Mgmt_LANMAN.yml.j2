@@ -1,0 +1,32 @@
+{% for source_address in Mgmt_LANMAN_ADDRESSES %}
+- grant: permit
+  source:
+    address: {{ source_address }}
+  destination:
+    any: true
+    port_protocol:
+      eq: 22
+{% endfor %}
+- grant: deny
+  source:
+    any: true
+  destination:
+    any: true
+    port_protocol:
+      eq: 22
+{% for source_address in Mgmt_LANMAN_ADDRESSES %}
+- grant: permit
+  source:
+    address: {{ source_address }}
+  destination:
+    any: true
+    port_protocol:
+      eq: 2444
+{% endfor %}
+- grant: deny
+  source:
+    any: true
+  destination:
+    any: true
+    port_protocol:
+      eq: 22
