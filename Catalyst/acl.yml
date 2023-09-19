@@ -1,5 +1,5 @@
 - name: Install ACLs on Catalyst from source of truth
-  hosts: lala
+  hosts: switches
   gather_facts: false
   connection: ansible.netcommon.network_cli
 
@@ -7,11 +7,15 @@
     ansible_network_os: cisco.ios.ios
     # Aquí se configuran las IPs de cada lista
     CMAS_ADMIN_ADDRESSES:
+      - 10.50.21.51
+      - 10.112.47.115
       - 10.10.10.10
       - 10.10.10.12
       - 10.10.10.13
 
     Mgmt_LANMAN_ADDRESSES:
+      - 10.50.21.51
+      - 10.112.47.115
       - 10.20.5.33
       - 10.50.21.5
 
@@ -31,4 +35,4 @@
                 aces: >-
                   {{ lookup('template', 'templates/Mgmt_LANMAN.yml.j2')
                   | ansible.builtin.from_yaml }}
-        state: rendered
+        state: merged
