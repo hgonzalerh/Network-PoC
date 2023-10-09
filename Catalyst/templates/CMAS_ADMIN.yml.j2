@@ -1,5 +1,5 @@
 {% for source_address in CMAS_ADMIN_ADDRESSES %}
 - grant: permit
   source:
-    address: {{ source_address }}
+    host: {{ source_address }}
 {% endfor %}

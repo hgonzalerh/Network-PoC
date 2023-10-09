@@ -35,4 +35,4 @@
                 aces: >-
                   {{ lookup('template', 'templates/Mgmt_LANMAN.yml.j2')
                   | ansible.builtin.from_yaml }}
-        state: merged
+        state: rendered
