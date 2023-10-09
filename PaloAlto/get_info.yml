@@ -9,9 +9,6 @@
       username: "{{ username }}"
       password: "{{ password }}"
 
-  collections:
-    - paloaltonetworks.panos
-
   tasks:
     - name: Gather facts for device
       paloaltonetworks.panos.panos_facts:
@@ -30,3 +27,10 @@
           - "HA Status: {{ ansible_facts['net_ha_localstate'] }}"
           - "Multi-VSYS: {{ ansible_facts['net_multivsys'] }}"
           - "{{ ansible_facts['net_session_usage'] }} out of {{ ansible_facts['net_session_max'] }} sessions in use"
+
+    - name: Pull data from management interface
+      paloaltonetworks.panos.panos_management_profile:
+        provider: "{{ device }}"
+        state: gathered
+
+        
